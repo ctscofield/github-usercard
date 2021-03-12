@@ -1,3 +1,48 @@
+import axios from 'axios';
+
+axios
+  .get('https://api.github.com/users/ctscofield')
+  .then((res) => {
+    res.data;
+    const obj = res.data;
+    return obj;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
+function structure(obj) {
+  const base = document.createElement("div");
+  const uImg = document.createElement("img");
+  const cInfo = document.createElement("div");
+  const cName = document.createElement("h3");
+  const uName = document.createElement("p");
+  const uLocate = document.createElement("p");
+  const prof = document.createElement("p");
+  const page = document.createElement("a");
+  const uFollower = document.createElement("p");
+  const uFollowing = document.createElement("p");
+  const uBio = document.createElement("p");
+  
+  base.classList.add("card");
+  uImg.src = obj.avatar_url;
+  cInfo.classList.add("card-info");
+  cName.classList.add("name");
+  uName.classList.add("username");
+  uLocate.textContent = `Location: ${obj.location}`;
+  prof.textContent = `Profile:`
+  document.getElementsByTagName("a").href = obj.html_url;
+  page.textContent = `${obj.html_url}`;
+  uFollower.textContent = `Followers: ${obj.followers_url}`;
+  uFollowing.textContent = `Following: ${obj.following_url}`;
+  uBio.textContent = `Bio: ${obj.bio}`;
+
+  return base;
+}
+
+console.log(structure());
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
