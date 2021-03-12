@@ -1,3 +1,82 @@
+import axios from 'axios';
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+axios
+  .get('https://api.github.com/users/ctscofield')
+  .then((res) => {
+    const arg = res.data;
+    const bigDiv = structure(arg);
+    appender.append(bigDiv);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
+function structure(obj) {
+  const base = document.createElement("div");
+  const uImg = document.createElement("img");
+  const cInfo = document.createElement("div");
+  const cName = document.createElement("h3");
+  const uName = document.createElement("p");
+  const uLocate = document.createElement("p");
+  const prof = document.createElement("p");
+  const page = document.createElement("a");
+  const uFollower = document.createElement("p");
+  const uFollowing = document.createElement("p");
+  const uBio = document.createElement("p");
+  
+  base.classList.add("card");
+  uImg.src = obj.avatar_url;
+  cInfo.classList.add("card-info");
+  cName.classList.add("name");
+  cName.textContent = obj.name;
+  uName.classList.add("username");
+  uName.textContent = obj.login;
+  uLocate.textContent = `Location: ${obj.location}`;
+  prof.textContent = `Profile:`
+  document.getElementsByTagName("a").href = obj.html_url;
+  page.textContent = `${obj.html_url}`;
+  uFollower.textContent = `Followers: ${obj.followers_url}`;
+  uFollowing.textContent = `Following: ${obj.following_url}`;
+  uBio.textContent = `Bio: ${obj.bio}`;
+
+  base.appendChild(uImg);
+  base.appendChild(cInfo);
+  cInfo.appendChild(cName);
+  cInfo.appendChild(uName);
+  cInfo.appendChild(uLocate);
+  cInfo.appendChild(prof);
+  prof.appendChild(page);
+  cInfo.appendChild(uFollower);
+  cInfo.appendChild(uFollowing);
+  cInfo.appendChild(uBio);
+
+  return base;
+}
+
+const appender = document.querySelector(".cards");
+
+function friends(user) {
+  axios
+    .get(`https://api.github.com/users/${user}`)
+    .then((res) => {
+      const arg = res.data;
+
+      const divBig = structure(arg);
+      appender.append(divBig);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+followersArray.forEach((name) => {
+  friends(name);
+});
+
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
@@ -28,7 +107,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
